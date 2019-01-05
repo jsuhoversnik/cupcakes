@@ -1,16 +1,3 @@
-<?php
-//enable error reporting
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-if (!empty($_POST)){
-    echo print_r($_POST);
-    //echo $_POST['flavors[]'];
-
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +7,12 @@ if (!empty($_POST)){
 <body>
     <form method="post" action="">
         <label for="name">Name: </label>
-        <input type="text" name="name" id="name"><br>
+        <input type="text" name="name" id="name"<?php
+            if(!empty($_POST["name"])){
+                echo "value=\"" . $_POST["name"] .  "\"";
+            }
+       ?>><br>
+
             <?PHP
             $flavors = array("grasshopper" => "The Grasshopper",
                 "maple" => "Whiskey Maple Bacon",
@@ -36,7 +28,7 @@ if (!empty($_POST)){
 
 
                 //make the toppings sticky
-                if (!empty($_POST)) {
+                if (!empty($_POST["flavors"])) {
                     foreach( $_POST["flavors"] as $order){
 
                         //if value is in flavors array
@@ -52,6 +44,32 @@ if (!empty($_POST)){
             ?>
 
         <button type="submit">Submit</button>
+
+        <?php
+            //if submit has been hit
+            $isValid = true;
+            if(!empty($_POST)) {
+
+                if($_POST["name"] == "") {
+
+                    echo "<p>Please enter a name</p>";
+                    $isValid = false;
+                }
+                if(!isset($_POST["flavors"])){
+                    echo"<p>Please select at least one flavor</p>";
+                    $isValid = false;
+                }
+
+                foreach($_POST["flavors"] as $value){
+                    if(!array_key_exists($value,$flavors)){
+                        echo "<p>Invalid flavors selected</p>";
+                        $isValid = false;
+                    }
+                }
+            }
+
+        ?>
+
     </form>
 </body>
 </html>
