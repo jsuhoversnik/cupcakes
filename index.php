@@ -1,3 +1,13 @@
+<?php
+/*
+ * Jake Suhoversnik
+ * 1/5/2019
+ * IT 328 PHP Review Assignment 1
+ * http://jsuhoversnik.greenriverdev.com/328/cupcakes/index.php
+ * Cupcake order form, includes validation and posts an order summary
+ */
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +61,6 @@
             if(!empty($_POST)) {
 
                 if($_POST["name"] == "") {
-
                     echo "<p>Please enter a name</p>";
                     $isValid = false;
                 }
@@ -66,8 +75,21 @@
                         $isValid = false;
                     }
                 }
-            }
+                //if everything is valid
+                if($isValid){
+                    echo "<p>Thank you, " . $_POST["name"] . ", for your order!<br><br>";
+                    echo "Order Summary:<ul>";
 
+                    foreach($_POST["flavors"] as $order){
+                        echo "<li>". $flavors[$order] . "</li>";
+                    }
+
+                    $price = 3.5;
+                    $total = $price * sizeof($_POST["flavors"]);
+
+                    echo "</ul>Order Total: $" . number_format($total,2);
+                }
+            }
         ?>
 
     </form>
