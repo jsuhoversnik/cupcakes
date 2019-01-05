@@ -7,6 +7,14 @@
  * Cupcake order form, includes validation and posts an order summary
  */
 
+
+    $flavors = array("grasshopper" => "The Grasshopper",
+        "maple" => "Whiskey Maple Bacon",
+        "carrot" => "Carrot Walnut",
+        "caramel" => "Salted Caramel Cupcake",
+        "velvet" => "Red Velvet",
+        "lemon" => "Lemon Drop",
+        "tiramisu" => "Tiramisu");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +23,7 @@
     <title>Cupcakes</title>
 </head>
 <body>
-    <form method="post" action="">
+    <form method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
         <label for="name">Name: </label>
         <input type="text" name="name" id="name"<?php
             if(!empty($_POST["name"])){
@@ -23,19 +31,10 @@
             }
        ?>><br>
 
-            <?PHP
-            $flavors = array("grasshopper" => "The Grasshopper",
-                "maple" => "Whiskey Maple Bacon",
-                "carrot" => "Carrot Walnut",
-                "caramel" => "Salted Caramel Cupcake",
-                "velvet" => "Red Velvet",
-                "lemon" => "Lemon Drop",
-                "tiramisu" => "Tiramisu");
-
-
+        <?php
+        //print a checkbox for each flavor option
             foreach($flavors as $key => $value){
                 echo "<input type=\"checkbox\" name=\"flavors[]\" value=\"" . $key . "\"" ;
-
 
                 //make the toppings sticky
                 if (!empty($_POST["flavors"])) {
@@ -49,7 +48,7 @@
                     }
                 }
 
-              echo  ">" . $value . "</input><br>";
+              echo  ">" . $value . "<br>";
             }
             ?>
 
@@ -87,7 +86,8 @@
                     $price = 3.5;
                     $total = $price * sizeof($_POST["flavors"]);
 
-                    echo "</ul>Order Total: $" . number_format($total,2);
+                    //print total price formatted to show 2 decimal places
+                    echo "</ul>Order Total: $" . number_format($total,2) . "</p>";
                 }
             }
         ?>
